@@ -1,0 +1,46 @@
+{
+  "bank_id": "palmpay",
+  "sender_ids": ["PalmPay"],
+  "package_names": ["com.transsnet.palmpay"],
+  "patterns": [
+    {
+      "comment": "NGN X received from NAME ... Bal: Y",
+      "type": "CREDIT",
+      "regex": "(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*received from\\s+([^.\\r\\n]+).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Transfer of NGN X to NAME was successful. Bal: Y",
+      "type": "DEBIT",
+      "regex": "Transfer of\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*to\\s+([^\\s][^.\\r\\n]+?)\\s*was successful.*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Payment of NGN X to NAME successful. Bal: Y",
+      "type": "DEBIT",
+      "regex": "Payment of\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*(?:to|for)\\s+([^.\\r\\n]+?)\\s*(?:successful|was successful).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Cashback of NGN X credited. Balance: Y",
+      "type": "CREDIT",
+      "regex": "(?:Cashback|Refund|Bonus) of\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:credited|added).*?(?:Balance|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",  "group": 1},
+        {"field": "balance", "group": 2}
+      ]
+    }
+  ]
+}

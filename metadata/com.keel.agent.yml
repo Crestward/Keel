@@ -1,0 +1,51 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# F-Droid metadata for Keel — on-device privacy-first financial agent
+
+Categories:
+  - Money
+
+License: AGPL-3.0-only
+
+AuthorName: Keel Contributors
+SourceCode: https://github.com/YOUR_USERNAME/keel
+IssueTracker: https://github.com/YOUR_USERNAME/keel/issues
+
+AutoName: Keel
+
+Summary: On-device financial agent for Nigerian bank accounts
+
+Description: |
+  Keel is a privacy-first financial agent that runs entirely on your Android device.
+  It reads your Nigerian bank SMS alerts and push notifications, understands your
+  spending patterns, and proactively surfaces actionable insights — without ever
+  sending your data to a server.
+
+  Key features:
+  - 100% on-device AI (Gemma 3 1B via Google LiteRT-LM)
+  - Supports 18 Nigerian banks (GTBank, Access, First Bank, UBA, Zenith, Kuda,
+    OPay, PalmPay, Moniepoint, Sterling, ALAT, VULTe, Stanbic, Union, Fidelity,
+    Carbon, VFD, and more)
+  - ReAct agent loop — thinks, calls tools, observes results
+  - Three-tier memory: permanent facts, 7-day recall, semantic archival search
+  - AES-256 encrypted database (SQLCipher)
+  - Zero network calls for financial analysis
+  - AGPL-3.0 licensed
+
+  Requires Android 12 (API 31) or higher.
+
+RepoType: git
+Repo: https://github.com/YOUR_USERNAME/keel
+
+Builds:
+  - versionName: '1.0.0'
+    versionCode: 1
+    commit: v1.0.0
+    subdir: app
+    gradle:
+      - release
+    ndk: r27
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: '1.0.0'
+CurrentVersionCode: 1

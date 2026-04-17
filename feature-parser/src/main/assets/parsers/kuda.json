@@ -1,0 +1,47 @@
+{
+  "bank_id": "kuda",
+  "sender_ids": ["Kuda"],
+  "package_names": ["com.kudabank.app"],
+  "patterns": [
+    {
+      "comment": "Credit - NGN X received from NAME ... Available balance: Y",
+      "type": "CREDIT",
+      "regex": "Credit\\s*-\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*received from\\s+([^.\\r\\n]+?)(?:\\.|\\s+on your).*?(?:Available balance|Balance|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Debit - NGN X paid to NAME / sent to NAME ... Available balance: Y",
+      "type": "DEBIT",
+      "regex": "Debit\\s*-\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*(?:paid to|sent to)\\s+([^.\\r\\n]+?)(?:\\.|\\s+with your).*?(?:Available balance|Balance|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "You just received NGN X from NAME. Balance: Y",
+      "type": "CREDIT",
+      "regex": "You just received\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*from\\s+([^.\\r\\n]+).*?(?:Balance|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "You just sent NGN X to NAME. Balance: Y",
+      "type": "DEBIT",
+      "regex": "You just sent\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*to\\s+([^.\\r\\n]+).*?(?:Balance|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    }
+  ]
+}

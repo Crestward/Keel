@@ -1,0 +1,47 @@
+{
+  "bank_id": "opay",
+  "sender_ids": ["OPay"],
+  "package_names": ["team.opay.pay"],
+  "patterns": [
+    {
+      "comment": "You received NGN X from NAME. Balance: Y",
+      "type": "CREDIT",
+      "regex": "You received\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*from\\s+([^.\\r\\n]+).*?(?:Balance|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "You sent NGN X to NAME. Balance: Y",
+      "type": "DEBIT",
+      "regex": "You sent\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*to\\s+([^.\\r\\n]+).*?(?:Balance|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Transfer Successful! NGN X transferred to NAME. New Balance: Y",
+      "type": "DEBIT",
+      "regex": "Transfer Successful.*?(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*(?:transferred to|sent to)\\s+([^.\\r\\n]+).*?(?:New Balance|Balance|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Credit Alert: Your account was credited with NGN X by NAME. Bal: Y",
+      "type": "CREDIT",
+      "regex": "(?:Credit Alert|credited with).*?(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*(?:by|from)\\s+([^.\\r\\n]+).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    }
+  ]
+}

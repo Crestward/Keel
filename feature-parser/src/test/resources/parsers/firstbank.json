@@ -1,0 +1,56 @@
+{
+  "bank_id": "firstbank",
+  "sender_ids": ["FirstBank", "FIRSTBANK"],
+  "package_names": ["com.firstbank.firstmobile"],
+  "patterns": [
+    {
+      "comment": "Real First Bank account alert (CREDIT): ACCTNO Amt: NGN X Date: ... Desc: ...FROM/RECEIPT/INCOMING... Bal: NGN Y[CR]",
+      "type": "CREDIT",
+      "regex": "Amt:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s+Date:.*?Desc:?\\s*([^.\\r\\n]*(?:FROM|RECEIPT|INCOMING|NIP CREDIT)[^.\\r\\n]*).*?Bal:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Real First Bank account alert (DEBIT): ACCTNO Amt: NGN X Date: ... Desc: FIP/POS/ATM/transfer... Bal: NGN Y[CR]. The Bal suffix CR/DR is a balance-type marker, not the txn type.",
+      "type": "DEBIT",
+      "regex": "Amt:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s+Date:.*?Desc:?\\s*([^.\\r\\n]+).*?Bal:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Prose credit: You have received NGN X from NAME in your account. Balance: Y",
+      "type": "CREDIT",
+      "regex": "(?:received|credited with)\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*(?:from|by)\\s+([^.\\r\\n]+?)(?:\\.|\\s+in your).*?(?:balance|bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Alert! Debit on acct. Amount: NGN X. Merchant: Y. Balance: Z",
+      "type": "DEBIT",
+      "regex": "(?:Debit|debited).*?(?:Amount|Amt):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Merchant|Narr|Desc):?\\s*([^.\\r\\n]+).*?(?:Balance|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "FBN acct debited NGN X for POS/ATM. Bal: Y",
+      "type": "DEBIT",
+      "regex": "(?:acct|account).*?debited.*?(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",  "group": 1},
+        {"field": "balance", "group": 2}
+      ]
+    }
+  ]
+}

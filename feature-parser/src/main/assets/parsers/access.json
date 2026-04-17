@@ -1,0 +1,47 @@
+{
+  "bank_id": "access",
+  "sender_ids": ["AccessBnk", "AccessBank"],
+  "package_names": ["com.accessbank.nextgen"],
+  "patterns": [
+    {
+      "comment": "Debit of NGN X from Acct ... Desc: ... Bal: ...",
+      "type": "DEBIT",
+      "regex": "Debit of\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Desc|Description|Narr):?\\s*([^.|\\r\\n]+).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Credit of NGN X to Acct ... Desc: ... Bal: ...",
+      "type": "CREDIT",
+      "regex": "Credit of\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Desc|Description|Narr):?\\s*([^.|\\r\\n]+).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Txn pipe format: Txn: Debit|Acct:...|Amt: NGN...|Desc:...|Bal: ...",
+      "type": "DEBIT",
+      "regex": "Txn:?\\s*Debit.*?Amt:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Desc|Narr):?\\s*([^|\\r\\n]+).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Txn pipe format: Txn: Credit|...",
+      "type": "CREDIT",
+      "regex": "Txn:?\\s*Credit.*?Amt:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Desc|Narr):?\\s*([^|\\r\\n]+).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    }
+  ]
+}

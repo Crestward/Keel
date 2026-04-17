@@ -1,0 +1,37 @@
+{
+  "bank_id": "moniepoint",
+  "sender_ids": ["Moniepoint"],
+  "package_names": ["com.moniepoint.personal"],
+  "patterns": [
+    {
+      "comment": "[Moniepoint] Credit: acct ****1234 credited with NGN X. Desc: NAME. Bal: Y",
+      "type": "CREDIT",
+      "regex": "\\[?Moniepoint\\]?\\s*Credit:?.*?(?:credited with|credit of)\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Desc|Narr|from):?\\s*([^.\\r\\n]+).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "[Moniepoint] Debit: acct ****1234 debited NGN X. Desc: POS - SHOPRITE. Bal: Y",
+      "type": "DEBIT",
+      "regex": "\\[?Moniepoint\\]?\\s*Debit:?.*?(?:debited|debit of)\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Desc|Narr|for):?\\s*([^.\\r\\n]+).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "[Moniepoint] POS transfer: NGN X debited from acct for MERCHANT. Bal: Y",
+      "type": "DEBIT",
+      "regex": "\\[?Moniepoint\\]?.*?(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*(?:debited from|deducted from).*?(?:for|at)\\s+([^.\\r\\n]+).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    }
+  ]
+}

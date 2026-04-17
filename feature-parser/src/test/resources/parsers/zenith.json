@@ -1,0 +1,37 @@
+{
+  "bank_id": "zenith",
+  "sender_ids": ["Zenith", "ZenithBank"],
+  "package_names": ["com.zenithBank.eazymoney"],
+  "patterns": [
+    {
+      "comment": "Uppercase pipe format: DEBIT ALERT|AMT=NGN X|DESC=...|BAL=NGN Y",
+      "type": "DEBIT",
+      "regex": "DEBIT ALERT.*?AMT=?:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?DESC=?:?\\s*([^|\\r\\n]+).*?BAL=?:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Uppercase pipe format: CREDIT ALERT|AMT=NGN X|DESC=...|BAL=NGN Y",
+      "type": "CREDIT",
+      "regex": "CREDIT ALERT.*?AMT=?:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?DESC=?:?\\s*([^|\\r\\n]+).*?BAL=?:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Prose debit: Zenith Bank Debit: NGN X on acct ****1234 for DESC. Bal: Y",
+      "type": "DEBIT",
+      "regex": "(?:Zenith Bank)?\\s*Debit:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:for|at)\\s+([^.\\r\\n]+).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    }
+  ]
+}

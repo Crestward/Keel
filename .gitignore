@@ -1,0 +1,44 @@
+### Android ###
+*.iml
+.gradle/
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+
+# Gradle (keep wrapper scripts — exclude only binary jar and generated files)
+.gradle/
+gradle/wrapper/gradle-wrapper.jar
+
+# Models — never commit the 500MB Gemma model
+*.litertlm
+*.tflite
+*.bin
+
+# Secrets
+local.properties
+keystore.jks
+*.keystore
+*.jks
+
+# CI
+.env
+
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+
+# Documentation and text files
+*.md
+*.txt

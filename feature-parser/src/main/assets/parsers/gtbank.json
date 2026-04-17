@@ -1,0 +1,65 @@
+{
+  "bank_id": "gtbank",
+  "sender_ids": ["GTBank", "GTBANK"],
+  "package_names": ["com.gtbank.gtworldv1"],
+  "patterns": [
+    {
+      "comment": "Real GTBank account alert: Acct/Amt DR/Desc/Avail Bal (current GTWorld format)",
+      "type": "DEBIT",
+      "regex": "Acct:?\\s.*?Amt:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*DR.*?(?:Desc|Narr):?\\s*([^\\r\\n]+).*?(?:Avail Bal|Available Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Real GTBank account alert: Acct/Amt CR/Desc/Avail Bal (current GTWorld format)",
+      "type": "CREDIT",
+      "regex": "Acct:?\\s.*?Amt:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*CR.*?(?:Desc|Narr):?\\s*([^\\r\\n]+).*?(?:Avail Bal|Available Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Older GTBank SMS: 'Debit Alert' header + Amt + Desc line + Avail Bal",
+      "type": "DEBIT",
+      "regex": "Debit Alert.*?Amt:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Desc|Narr):?\\s*([^\\r\\n]+).*?(?:Avail Bal|Available Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Older GTBank SMS: 'Credit Alert' header + Amt + Desc line + Avail Bal",
+      "type": "CREDIT",
+      "regex": "Credit Alert.*?Amt:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Desc|Narr):?\\s*([^\\r\\n]+).*?(?:Avail Bal|Available Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Compact prose debit: '...was debited NGN X...' with balance",
+      "type": "DEBIT",
+      "regex": "(?:debited|charged).*?(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Avail Bal|Available Balance|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",  "group": 1},
+        {"field": "balance", "group": 2}
+      ]
+    },
+    {
+      "comment": "Compact prose credit: '...was credited NGN X...' with balance",
+      "type": "CREDIT",
+      "regex": "(?:credited|received).*?(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Avail Bal|Available Balance|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",  "group": 1},
+        {"field": "balance", "group": 2}
+      ]
+    }
+  ]
+}

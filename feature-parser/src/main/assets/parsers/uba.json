@@ -1,0 +1,37 @@
+{
+  "bank_id": "uba",
+  "sender_ids": ["UBA", "UBAConnect"],
+  "package_names": ["com.ubanquity.redd.uba", "com.uba.vericash"],
+  "patterns": [
+    {
+      "comment": "Cr alert on acct ****1234: NGN X Received from NAME ... Avail Bal: Y",
+      "type": "CREDIT",
+      "regex": "Cr alert.*?:\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*(?:Received from|from)\\s+([^.\\r\\n]+).*?(?:Avail Bal|Available Bal|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "Dr alert on acct ****1234: NGN X Deducted for DESC ... Avail Bal: Y",
+      "type": "DEBIT",
+      "regex": "Dr alert.*?:\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)\\s*(?:Deducted for|for)\\s+([^.\\r\\n]+).*?(?:Avail Bal|Available Bal|Bal):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    },
+    {
+      "comment": "UBA Txn: Debit|Amt: NGN X|Desc: Y|Bal: Z (pipe format)",
+      "type": "DEBIT",
+      "regex": "(?:Dr|Debit).*?Amt:?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?).*?(?:Desc|Narr):?\\s*([^|\\r\\n]+).*?(?:Bal|Balance):?\\s*(?:NGN|₦|N)?\\s*([\\d,]+(?:\\.\\d{1,2})?)",
+      "groups": [
+        {"field": "amount",   "group": 1},
+        {"field": "merchant", "group": 2},
+        {"field": "balance",  "group": 3}
+      ]
+    }
+  ]
+}
