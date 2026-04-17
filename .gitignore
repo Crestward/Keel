@@ -42,3 +42,8 @@ Thumbs.db
 # Documentation and text files
 *.md
 *.txt
+
+# Local tooling
+.claude
+
+.claude
